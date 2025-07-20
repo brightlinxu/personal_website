@@ -77,7 +77,9 @@ const Home: NextPage = () => {
                  target="_blank"
                  rel="noopener noreferrer"
                >
-                 <img src={project.image} alt={project.name} className="object-cover aspect-video transition-transform group-hover:scale-110" />
+                <div className="aspect-video">
+                  <img src={project.image} alt={project.name} className="w-full h-full object-cover transition-transform group-hover:scale-110" />
+                </div>
                 <div className="p-3">
                   <div className="text-lg font-bold">{project.name}</div>
                   <div className="text-sm text-gray-500">{project.description}</div>
