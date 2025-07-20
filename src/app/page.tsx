@@ -70,14 +70,14 @@ const Home: NextPage = () => {
           <div className="text-2xl font-bold">Some things I&apos;ve built</div>
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-4">
             {PROJECTS.map(project => (
-              <Link 
-                className="bg-gray-100 rounded-lg relative overflow-hidden cursor-pointer"
-                key={project.name}
-                href={project.link}
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                <img src={project.image} alt={project.name} className="object-cover aspect-video" />
+                             <Link 
+                 className="bg-gray-100 rounded-lg relative overflow-hidden cursor-pointer border border-gray-100 group"
+                 key={project.name}
+                 href={project.link}
+                 target="_blank"
+                 rel="noopener noreferrer"
+               >
+                 <img src={project.image} alt={project.name} className="object-cover aspect-video transition-transform group-hover:scale-110" />
                 <div className="p-3">
                   <div className="text-lg font-bold">{project.name}</div>
                   <div className="text-sm text-gray-500">{project.description}</div>
