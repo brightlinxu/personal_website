@@ -49,7 +49,6 @@ const Home: NextPage = () => {
     <>
       <Head>
         <title>Bright Xu</title>
-        <meta name="description" content="Bright Xu's Personal Website" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
