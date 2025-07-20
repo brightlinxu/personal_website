@@ -1,0 +1,45 @@
+---
+description: 
+globs: 
+alwaysApply: true
+---
+<always>
+Always take the long term scalable solution.
+Always consider the 2nd or 3rd best solution to a problem.
+Always think about addressing bugs from a fundamental level.
+Always use easily human readable variable names.
+Always consider scalability with large input sizes.
+Always write code in a way that maximizes type safety and compile-time error detection to minimize runtime errors.
+Always import with absolute paths instead of relative paths.
+</always>
+<never>
+Never solve a problem with a quick or "simple" fix. 
+Never produce a change with a "copy-paste" style snippet as the first approach.
+Never attempt a drop-in solution first.
+Never address issues, requests, or bugs with shitty hot-fixes.
+Never use short variable names less than 4 characters.
+Never use emojis.
+Never attempt to run code with a terminal command.
+</never>
+
+<suggestions>
+If tool calls or file edits continue to fail, relinquish control to the user to debug.
+Backwards compatability is not necessary.
+It is always okay to write code that will require changes across a whole file or even across the whole codebaseif the change supports long term dev and readability.
+Writing tests is not necessary unless requested.
+Assume all code will be run on a single threaded for simplicity.
+Write code in a style that is easy to navigate with an IDE/VSCode/Jetbrains so devs can cmd+click variables and functions.
+If we are writing code that follows a well documented pattern, design, or package that already exists, let me know so I can conduct more research and see if there are existing solutions that could benefit my code. For example, I previously was attempting to implement a ton of custom wrappers around the raw TS Websocket library, only to find out later this has already been solved by Socket.io.
+Avoid solutions that rely on try/catch fallback mechanisms. Allow errors to propogate with useful messages so devs can debug.
+Don't add comments describing the action you just performed. Only add comments that describe the code.
+</suggestions>
+
+<typescript>
+If the code is typscript, the following must be adhered to:
+- all variables must be typed
+- do not just import * garbage
+- try to use classes or enums wherever possible to guaranteed structured variables
+- do not use semicolons
+- use # syntax for private variables in classes
+- for functions, always use () => {} syntax unless necessary
+</typescript>

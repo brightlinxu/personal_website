@@ -1,0 +1,7 @@
+---
+description: Understanding how the project and directories are organized and a summary of the implmentation details in different parts of the repo. Good to access before working across multiple files in the repo.
+globs: 
+alwaysApply: false
+---
+# Overall repo description
+This repo is my personal website. I want to show off that I'm a frontend engineer, so my design needs to be quirky and have lots of animations. It is a nextjs project. I'm using framer-motion for my animations.
