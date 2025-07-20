@@ -60,7 +60,7 @@ const Home: NextPage = () => {
             <img src="/images/headshot.jpeg" className="size-12 sm:size-16 md:size-20 rounded-full ml-4 sm:ml-6 md:ml-8 aspect-square object-cover" alt="headshot"/>
           </div>
           <div className="text-xl font-bold mt-6">
-            (that&apos;s actually is my name... Bright Xu)
+            (that&apos;s actually my name... Bright Xu)
           </div>
           <div className="text-lg mt-6">
             welcome to my website! i&apos;m a software engineer in NYC. i like frontend, building cool UI/UX, cats, and hotpot.
