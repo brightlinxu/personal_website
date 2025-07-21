@@ -69,7 +69,7 @@ const Home: NextPage = () => {
           <div className="text-2xl font-bold">Some things I&apos;ve built</div>
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-4">
             {PROJECTS.map(project => (
-                             <Link 
+                <Link 
                  className="bg-gray-100 rounded-lg relative overflow-hidden cursor-pointer border border-gray-100 group"
                  key={project.name}
                  href={project.link}
