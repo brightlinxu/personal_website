@@ -76,7 +76,7 @@ const Home: NextPage = () => {
                  target="_blank"
                  rel="noopener noreferrer"
                >
-                <div className="aspect-video">
+                <div className="aspect-video overflow-hidden">
                   <img src={project.image} alt={project.name} className="w-full h-full object-cover transition-transform group-hover:scale-110" />
                 </div>
                 <div className="p-3">
