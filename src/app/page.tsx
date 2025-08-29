@@ -56,7 +56,7 @@ const Home: NextPage = () => {
         <div>
           <div className="text-5xl sm:text-6xl md:text-7xl font-black flex items-center shrink-0">
             <div className="shrink-0 whitespace-nowrap">hi, i&apos;m bright</div>
-            <img src="/images/headshot.jpeg" className="size-12 sm:size-16 md:size-20 rounded-full ml-4 sm:ml-6 md:ml-8 aspect-square object-cover" alt="headshot"/>
+            <img src="/images/headshot.jpeg" className="size-12 sm:size-24 md:size-28 rounded-full ml-4 sm:ml-6 md:ml-8 aspect-square object-cover" alt="headshot"/>
           </div>
           <div className="text-xl font-bold mt-6">
             (that&apos;s actually my name... Bright Xu)
