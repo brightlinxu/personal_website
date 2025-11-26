@@ -34,7 +34,7 @@ export const MenuBar = () => {
             className="w-5 h-5 rounded-full object-cover"
           />
         </div>
-        <div className="font-semibold hidden sm:block">
+        <div className="font-semibold">
           {activeWindowId ? APPS.find(app => app.id === activeWindowId)?.title || "Bright Xu" : "Bright Xu"}
         </div>
         {/* <div className="hidden sm:flex gap-4 font-medium text-menu-text/90">
@@ -65,7 +65,7 @@ export const MenuBar = () => {
             <Command size={14} />
             <span className="text-xs">Space</span>
         </div> */}
-        <div className="hover:bg-foreground/10 px-2 py-0.5 rounded transition-colors cursor-default min-w-[80px] text-center">
+        <div className="hover:bg-foreground/10 px-2 py-0.5 rounded transition-colors cursor-default min-w-[80px] text-center hidden sm:block">
           {format(time, "EEE MMM d h:mm aa")}
         </div>
       </div>
