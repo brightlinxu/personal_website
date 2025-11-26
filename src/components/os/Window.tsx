@@ -388,7 +388,7 @@ export const Window = ({
           </button>
         </div>
         
-        <div className="text-sm font-medium text-gray-700 dark:text-gray-300 absolute left-1/2 -translate-x-1/2 pointer-events-none select-none">
+        <div className="text-sm font-semibold text-foreground absolute left-1/2 -translate-x-1/2 pointer-events-none select-none">
           {title}
         </div>
         
