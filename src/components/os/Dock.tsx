@@ -71,7 +71,7 @@ function DockIcon({ mouseX, app, isOpen, onClick }: { mouseX: any, app: any, isO
     return val - bounds.x - bounds.width / 2
   })
 
-  const widthSync = useTransform(distance, [-150, 0, 150], [40, 80, 40])
+  const widthSync = useTransform(distance, [-150, 0, 150], [40, 65, 40])
   const width = useSpring(widthSync, { mass: 0.1, stiffness: 150, damping: 12 })
 
   return (
@@ -93,7 +93,7 @@ function DockIcon({ mouseX, app, isOpen, onClick }: { mouseX: any, app: any, isO
       </div>
       
       {/* Tooltip */}
-      <span className="absolute -top-12 bg-gray-900/80 text-white text-xs px-2 py-1 rounded opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none whitespace-nowrap border border-white/10 backdrop-blur-md">
+      <span className="absolute -top-10 bg-gray-900/80 text-white text-xs px-2 py-1 rounded-lg opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none whitespace-nowrap border border-white/10 backdrop-blur-md">
         {app.title}
       </span>
       
@@ -106,7 +106,7 @@ function DockIcon({ mouseX, app, isOpen, onClick }: { mouseX: any, app: any, isO
             exit={{ opacity: 0 }}
             transition={{ duration: 0.2, ease: "easeInOut" }}
           >
-            <div className="absolute -bottom-[7px] size-[3.5px] bg-foreground/80 rounded-full" />
+            <div className="absolute left-1/2 -translate-x-1/2 -bottom-[7px] size-[3.5px] bg-foreground/80 rounded-full" />
           </motion.div>
         )}
       </AnimatePresence>
