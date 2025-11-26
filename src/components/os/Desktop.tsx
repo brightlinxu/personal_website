@@ -6,6 +6,7 @@ import { Window } from "./Window"
 import { AboutApp } from "../apps/AboutApp"
 import { ProjectsApp } from "../apps/ProjectsApp"
 import { SettingsApp } from "../apps/SettingsApp"
+import { JourneyApp } from "../apps/JourneyApp"
 import { useOSStore } from "@/store/osStore"
 import { AnimatePresence, motion } from "framer-motion"
 import { LoadingScreen } from "./LoadingScreen"
@@ -101,6 +102,8 @@ export const Desktop = () => {
         return <AboutApp />
       case "projects":
         return <ProjectsApp />
+      case "journey":
+        return <JourneyApp />
       case "settings":
         return <SettingsApp />
       default:

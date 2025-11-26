@@ -50,13 +50,6 @@ export const SettingsApp = () => {
               })}
             </div>
           </div>
-
-          <div className="pt-6 border-t border-border/50">
-            <div className="flex items-center justify-between text-xs @md:text-sm">
-               <span className="text-muted-foreground">Version</span>
-               <span className="font-mono text-foreground/70">1.0.0</span>
-            </div>
-          </div>
         </div>
       </div>
     </div>

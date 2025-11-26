@@ -1,5 +1,6 @@
 import { create } from 'zustand'
 import { persist } from 'zustand/middleware'
+import { APPS } from '@/data/apps'
 
 interface WindowState {
   id: string
@@ -66,13 +67,18 @@ export const useOSStore = create<OSState>()(
         // Add some randomness to initial position so they don't stack perfectly
         const randomOffset = Object.keys(state.windows).length * 20
         
+        // Get default dimensions from APPS config or fallback
+        const appConfig = APPS.find(a => a.id === id)
+        const defaultWidth = appConfig?.width || 600
+        const defaultHeight = appConfig?.height || 400
+        
         set({
           windows: {
             ...state.windows,
             [id]: {
               id,
               position: { x: 100 + randomOffset, y: 100 + randomOffset },
-              size: { width: id === 'projects' ? 800 : 600, height: id === 'projects' ? 600 : 400 },
+              size: { width: defaultWidth, height: defaultHeight },
               isOpen: true,
               isMinimized: false,
               zIndex: state.maxZIndex + 1

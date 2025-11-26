@@ -3,8 +3,9 @@ import { Command } from "cmdk"
 import { useOSStore } from "@/store/osStore"
 import { APPS } from "@/data/apps"
 import { GITHUB_URL } from "@/lib/constants"
-import { Search, MoveRight } from "lucide-react"
+import { Search, MoveRight, ArrowUpRight } from "lucide-react"
 import { AnimatePresence, motion } from "framer-motion"
+import { PROJECTS } from "@/data/projects"
 
 export const CommandMenu = () => {
   const { isCommandMenuOpen, setCommandMenuOpen, openWindow, setTheme } = useOSStore()
@@ -44,11 +45,11 @@ export const CommandMenu = () => {
     <AnimatePresence>
       {isCommandMenuOpen && (
         <motion.div
-          initial={{ opacity: 0, scale: 0.98 }}
-          animate={{ opacity: 1, scale: 1 }}
-          exit={{ opacity: 0, scale: 0.98 }}
-          transition={{ duration: 0.2 }}
-          className="fixed inset-[-100%] z-[99999] flex items-center justify-center bg-black/40 backdrop-blur-sm p-4"
+          // initial={{ opacity: 0, scale: 0.98 }}
+          // animate={{ opacity: 1, scale: 1 }}
+          // exit={{ opacity: 0, scale: 0.98 }}
+          // transition={{ duration: 0.2 }}
+          className="fixed inset-0 z-[99999] flex items-start justify-center p-4 pt-20"
           onClick={(e) => {
             if (e.target === e.currentTarget) setCommandMenuOpen(false)
           }}
@@ -89,12 +90,17 @@ export const CommandMenu = () => {
                     })}
                     className="flex items-center gap-3 px-3 py-3 rounded-lg cursor-pointer text-sm text-gray-700 dark:text-gray-200 aria-selected:bg-blue-500/10 aria-selected:text-blue-600 dark:aria-selected:bg-blue-500/20 dark:aria-selected:text-blue-400 transition-colors group"
                   >
-                    <div className={`p-2 rounded-md ${app.color} text-white`}>
+                    <div className={`p-2 rounded-md ${app.color} text-white relative`}>
                         <app.icon size={16} />
+                        {app.external && (
+                        <div className="absolute top-0.5 right-0.5 bottom-[70%] left-[70%]">
+                          <ArrowUpRight className="text-white/80 size-full" />
+                        </div>
+        )}
                     </div>
                     <span className="flex-1">{app.title}</span>
                     <span className="text-xs text-gray-400 opacity-0 group-aria-selected:opacity-100 transition-opacity">
-                        Open App
+                        {app.external ? "Open External" : "Open App"}
                     </span>
                   </Command.Item>
                 ))}
