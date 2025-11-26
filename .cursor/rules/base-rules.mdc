@@ -11,6 +11,7 @@ Always use easily human readable variable names.
 Always consider scalability with large input sizes.
 Always write code in a way that maximizes type safety and compile-time error detection to minimize runtime errors.
 Always import with absolute paths instead of relative paths.
+Always use Tailwind CSS variables for theme colors (e.g. `bg-background`, `text-foreground`) instead of hardcoded dark mode modifiers (e.g. `dark:bg-black`). If a variable doesn't exist, create a semantic one in `src/index.css`.
 </always>
 <never>
 Never solve a problem with a quick or "simple" fix. 

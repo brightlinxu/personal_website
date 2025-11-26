@@ -4,4 +4,27 @@ globs:
 alwaysApply: false
 ---
 # Overall repo description
-This repo is my personal website. I want to show off that I'm a frontend engineer, so my design needs to be quirky and have lots of animations. It is a nextjs project. I'm using framer-motion for my animations.
+This repo is my personal website (brightxu.com). It is a Single Page Application (SPA) built with **Vite + React + TypeScript** (migrated from Next.js).
+
+The core concept is a **"MacOS-style Desktop Environment"** running in the browser:
+- **Desktop Metaphor:** The entire page acts as a desktop surface (`src/components/os/Desktop.tsx`).
+- **Window Management:** Windows can be opened, closed, minimized, dragged, and focused. State is managed via **Zustand** and persisted to local storage (`src/store/osStore.ts`).
+- **UI Components:**
+    - **Menu Bar:** Top fixed bar with clock, user profile (Headshot), and status icons (`src/components/os/MenuBar.tsx`).
+    - **Dock:** Bottom floating dock with magnification effects using Framer Motion (`src/components/os/Dock.tsx`).
+    - **Windows:** Draggable containers with MacOS-style traffic light buttons (`src/components/os/Window.tsx`).
+- **Apps:**
+    - **About:** Displays bio/resume info (`src/components/apps/AboutApp.tsx`).
+    - **Projects:** Grid view of portfolio projects (`src/components/apps/ProjectsApp.tsx`).
+    - **Contact:** Contact information card (`src/components/apps/ContactApp.tsx`).
+    - **External Links:** GitHub, Spotify (Retify) open in new tabs.
+- **Animations:** Heavily uses **Framer Motion** for smooth window transitions, drag physics, and dock scaling.
+- **Pixel Cat:** A "Oneko" script (`public/cat/oneko.js`) renders a cat that chases the cursor.
+
+## Tech Stack
+- **Framework:** React 19, Vite
+- **Styling:** Tailwind CSS v4
+- **State Management:** Zustand (w/ Persist middleware)
+- **Animation:** Framer Motion
+- **Icons:** Lucide React
+- **Utilities:** date-fns, clsx, tailwind-merge
