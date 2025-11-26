@@ -361,6 +361,8 @@ export const Window = ({
         <div className="flex gap-2 group/traffic cursor-default">
           <button 
             onClick={(e) => { e.stopPropagation(); closeWindow(id); }}
+            onMouseDown={(e) => { e.stopPropagation(); }}
+            onPointerDown={(e) => { e.stopPropagation(); }}
             className={cn(
               "w-3 h-3 rounded-full flex items-center justify-center transition-colors",
               isActive ? "bg-red-500 hover:bg-red-600" : "bg-traffic-light-inactive group-hover/traffic:bg-red-500"
@@ -370,6 +372,8 @@ export const Window = ({
           </button>
           <button 
             onClick={(e) => { e.stopPropagation(); minimizeWindow(id); }}
+            onMouseDown={(e) => { e.stopPropagation(); }}
+            onPointerDown={(e) => { e.stopPropagation(); }}
             className={cn(
               "w-3 h-3 rounded-full flex items-center justify-center transition-colors",
               isActive ? "bg-yellow-500 hover:bg-yellow-600" : "bg-traffic-light-inactive group-hover/traffic:bg-yellow-500"
@@ -379,6 +383,8 @@ export const Window = ({
           </button>
           <button 
             onClick={(e) => { e.stopPropagation(); handleMaximize(); }}
+            onMouseDown={(e) => { e.stopPropagation(); }}
+            onPointerDown={(e) => { e.stopPropagation(); }}
             className={cn(
               "w-3 h-3 rounded-full flex items-center justify-center transition-colors",
               isActive ? "bg-green-500 hover:bg-green-600" : "bg-traffic-light-inactive group-hover/traffic:bg-green-500"

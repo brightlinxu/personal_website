@@ -1,4 +1,4 @@
-import { useRef } from "react"
+import { useRef, useState, useEffect } from "react"
 import { motion, useMotionValue, useSpring, useTransform } from "framer-motion"
 import { 
   Folder, 
@@ -16,7 +16,7 @@ import {
 export const APPS = [
   { id: "about", title: "About Me", icon: User, color: "bg-blue-500" },
   { id: "projects", title: "Projects", icon: Code, color: "bg-indigo-500" },
-  { id: "resume", title: "Resume", icon: Folder, color: "bg-yellow-500" },
+  // { id: "resume", title: "Resume", icon: Folder, color: "bg-yellow-500" },
   { id: "contact", title: "Contact", icon: Mail, color: "bg-green-500" },
   { id: "settings", title: "Settings", icon: Settings, color: "bg-gray-500" },
   { id: "github", title: "GitHub", icon: Github, color: "bg-gray-800", link: "https://github.com" }, // We can handle links differently
@@ -28,6 +28,29 @@ interface DockProps {
 
 export const Dock = ({ onAppClick }: DockProps) => {
   const mouseX = useMotionValue(Infinity)
+  const [isTouchDevice, setIsTouchDevice] = useState(false)
+
+  useEffect(() => {
+    const checkDevice = () => {
+      // Check if the primary input mechanism is coarse (touch)
+      const isTouch = window.matchMedia("(pointer: coarse)").matches
+      setIsTouchDevice(isTouch)
+      if (isTouch) {
+        mouseX.set(Infinity)
+      }
+    }
+
+    checkDevice()
+    
+    const mediaQuery = window.matchMedia("(pointer: coarse)")
+    const listener = (e: MediaQueryListEvent) => {
+      setIsTouchDevice(e.matches)
+      if (e.matches) mouseX.set(Infinity)
+    }
+
+    mediaQuery.addEventListener("change", listener)
+    return () => mediaQuery.removeEventListener("change", listener)
+  }, [mouseX])
 
   return (
     <motion.div 
@@ -38,7 +61,9 @@ export const Dock = ({ onAppClick }: DockProps) => {
     >
       <div 
         className="flex gap-3 items-end h-14 px-3 pb-2 rounded-3xl bg-dock-bg backdrop-blur-xl border border-dock-border"
-        onMouseMove={(e) => mouseX.set(e.pageX)}
+        onMouseMove={(e) => {
+          if (!isTouchDevice) mouseX.set(e.pageX)
+        }}
         onMouseLeave={() => mouseX.set(Infinity)}
       >
         {APPS.map((app) => (
@@ -50,13 +75,13 @@ export const Dock = ({ onAppClick }: DockProps) => {
           />
         ))}
         {/* Divider */}
-        <div className="w-[1px] h-8 bg-foreground/20 mx-1" />
+        {/* <div className="w-[1px] h-8 bg-foreground/20 mx-1" />
         
         <DockIcon 
             mouseX={mouseX} 
             app={{ id: 'trash', title: 'Trash', icon: Trash2, color: 'bg-gray-600' }} 
             onClick={() => {}} 
-        />
+        /> */}
       </div>
     </motion.div>
   )

@@ -13,6 +13,7 @@ interface WindowState {
 interface OSState {
   windows: Record<string, WindowState>
   activeWindowId: string | null
+  windowHistory: string[] // Track order of focused windows
   maxZIndex: number
   theme: 'system' | 'light' | 'dark'
   isCommandMenuOpen: boolean
@@ -35,6 +36,7 @@ export const useOSStore = create<OSState>()(
     (set, get) => ({
       windows: {},
       activeWindowId: null,
+      windowHistory: [],
       maxZIndex: 10,
       theme: 'system',
       isCommandMenuOpen: false,
@@ -54,6 +56,7 @@ export const useOSStore = create<OSState>()(
               }
             },
             activeWindowId: id,
+            windowHistory: [...state.windowHistory.filter(h => h !== id), id],
             maxZIndex: state.maxZIndex + 1
           })
           return
@@ -76,12 +79,31 @@ export const useOSStore = create<OSState>()(
             }
           },
           activeWindowId: id,
+          windowHistory: [...state.windowHistory.filter(h => h !== id), id],
           maxZIndex: state.maxZIndex + 1
         })
       },
 
       closeWindow: (id) => {
         const state = get()
+        const wasActive = state.activeWindowId === id
+        
+        // Remove from history
+        const newHistory = state.windowHistory.filter(h => h !== id)
+        
+        let nextActiveId = state.activeWindowId
+        
+        if (wasActive) {
+          // Find the last window in history that is open and not minimized
+          // We iterate backwards through history
+          const lastActive = newHistory.slice().reverse().find(hId => {
+            const win = state.windows[hId]
+            return win && win.isOpen && !win.isMinimized
+          })
+          
+          nextActiveId = lastActive || null
+        }
+
         set({
           windows: {
             ...state.windows,
@@ -90,12 +112,29 @@ export const useOSStore = create<OSState>()(
               isOpen: false
             }
           },
-          activeWindowId: state.activeWindowId === id ? null : state.activeWindowId
+          activeWindowId: nextActiveId,
+          windowHistory: newHistory
         })
       },
 
       minimizeWindow: (id) => {
         const state = get()
+        const wasActive = state.activeWindowId === id
+        
+        // Remove from history since it's no longer "active" in the user flow sense
+        const newHistory = state.windowHistory.filter(h => h !== id)
+        
+        let nextActiveId = state.activeWindowId
+        
+        if (wasActive) {
+             const lastActive = newHistory.slice().reverse().find(hId => {
+            const win = state.windows[hId]
+            return win && win.isOpen && !win.isMinimized
+          })
+          
+          nextActiveId = lastActive || null
+        }
+
         set({
           windows: {
             ...state.windows,
@@ -104,7 +143,8 @@ export const useOSStore = create<OSState>()(
               isMinimized: true
             }
           },
-          activeWindowId: state.activeWindowId === id ? null : state.activeWindowId
+          activeWindowId: nextActiveId,
+          windowHistory: newHistory
         })
       },
 
@@ -121,6 +161,7 @@ export const useOSStore = create<OSState>()(
             }
           },
           activeWindowId: id,
+          windowHistory: [...state.windowHistory.filter(h => h !== id), id],
           maxZIndex: state.maxZIndex + 1
         })
       },
@@ -176,8 +217,8 @@ export const useOSStore = create<OSState>()(
           // Assuming pixels as numbers or "800px" strings for now. 
           // Simplification: let's assume we store numbers or parse them.
           
-          let numWidth = typeof width === 'number' ? width : parseInt(width as string) || 0
-          let numHeight = typeof height === 'number' ? height : parseInt(height as string) || 0
+          const numWidth = typeof width === 'number' ? width : parseInt(width as string) || 0
+          const numHeight = typeof height === 'number' ? height : parseInt(height as string) || 0
 
           // Constrain Width
           if (numWidth > maxWidth) {

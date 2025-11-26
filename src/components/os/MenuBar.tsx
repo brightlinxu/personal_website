@@ -3,10 +3,12 @@ import { format } from "date-fns"
 import { Battery, Wifi, Search, Command } from "lucide-react"
 import { useOSStore } from "@/store/osStore"
 
+import { APPS } from "./Dock"
+
 export const MenuBar = () => {
   const [time, setTime] = useState(new Date())
   const [shortcut, setShortcut] = useState("⌘K")
-  const { toggleCommandMenu } = useOSStore()
+  const { toggleCommandMenu, openWindow, activeWindowId } = useOSStore()
 
   useEffect(() => {
     const timer = setInterval(() => setTime(new Date()), 1000)
@@ -22,14 +24,19 @@ export const MenuBar = () => {
   return (
     <div className="h-8 w-full bg-menu-bar-bg backdrop-blur-md fixed top-0 left-0 z-50 flex items-center justify-between px-4 text-menu-text text-sm border-b border-white/10 select-none">
       <div className="flex items-center gap-4">
-        <div className="font-bold text-menu-text hover:opacity-80 cursor-pointer">
+        <div 
+          className="font-bold text-menu-text hover:opacity-80 cursor-pointer"
+          onClick={() => openWindow("about")}
+        >
           <img
             src="/images/headshot.jpeg"
             alt="Bright"
             className="w-5 h-5 rounded-full object-cover"
           />
         </div>
-        <div className="font-semibold hidden sm:block">Bright Xu</div>
+        <div className="font-semibold hidden sm:block">
+          {activeWindowId ? APPS.find(app => app.id === activeWindowId)?.title || "Bright Xu" : "Bright Xu"}
+        </div>
         {/* <div className="hidden sm:flex gap-4 font-medium text-menu-text/90">
           <span className="hover:bg-foreground/10 px-2 rounded cursor-default transition-colors">File</span>
           <span className="hover:bg-foreground/10 px-2 rounded cursor-default transition-colors">Edit</span>
