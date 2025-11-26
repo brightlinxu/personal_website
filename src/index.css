@@ -1,4 +1,5 @@
 @import "tailwindcss";
+@plugin "@tailwindcss/container-queries";
 
 :root {
   --background: #ffffff;
@@ -120,4 +121,3 @@ body {
   animation: tailSwing 3s ease-in-out infinite;
   transform-origin: 95px 50px;
 }
-

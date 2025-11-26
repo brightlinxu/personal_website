@@ -1,51 +1,64 @@
 import { useOSStore } from "@/store/osStore"
-import { Monitor, Sun, Moon, Smartphone } from "lucide-react"
+import { Monitor, Sun, Moon, Check } from "lucide-react"
 
 export const SettingsApp = () => {
   const { theme, setTheme } = useOSStore()
 
   const themes = [
-    { id: 'system', label: 'System Preference', icon: Monitor },
-    { id: 'light', label: 'Light Mode', icon: Sun },
-    { id: 'dark', label: 'Dark Mode', icon: Moon },
+    { id: 'system', label: 'System', icon: Monitor },
+    { id: 'light', label: 'Light', icon: Sun },
+    { id: 'dark', label: 'Dark', icon: Moon },
   ] as const
 
   return (
-    <div className="h-full w-full bg-window-bg text-foreground p-6">
-      <h2 className="text-2xl font-bold mb-6">Settings</h2>
-      
-      <div className="space-y-6">
-        <section>
-          <h3 className="text-lg font-semibold mb-4 flex items-center gap-2">
-            <Monitor className="w-5 h-5" />
-            Appearance
-          </h3>
-          
-          <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-            {themes.map((t) => (
-              <button
-                key={t.id}
-                onClick={() => setTheme(t.id)}
-                className={`
-                  flex flex-col items-center justify-center p-4 rounded-xl border-2 transition-all
-                  ${theme === t.id 
-                    ? 'border-accent bg-accent/10 text-accent' 
-                    : 'border-border hover:border-muted-foreground/20'
-                  }
-                `}
-              >
-                <t.icon className="w-8 h-8 mb-3" />
-                <span className="font-medium">{t.label}</span>
-              </button>
-            ))}
+    <div className="h-full w-full overflow-y-auto @container">
+      <div className="p-6 @md:p-8 text-foreground h-full">
+        <div className="max-w-2xl mx-auto space-y-6 @md:space-y-8">
+          <div>
+            <h2 className="text-xl @md:text-2xl font-bold tracking-tight mb-1 @md:mb-2">Settings</h2>
+            <p className="text-xs @md:text-sm text-muted-foreground">Customize your experience.</p>
           </div>
-        </section>
+          
+          <div className="space-y-3 @md:space-y-4">
+            <h3 className="text-xs @md:text-sm font-medium uppercase tracking-wider text-muted-foreground">Appearance</h3>
+            
+            <div className="grid grid-cols-1 @xs:grid-cols-3 gap-3 @md:gap-4">
+              {themes.map((t) => {
+                const isActive = theme === t.id
+                return (
+                  <button
+                    key={t.id}
+                    onClick={() => setTheme(t.id)}
+                    className={`
+                      group relative flex flex-col items-center justify-center gap-2 @md:gap-3 p-3 @md:p-4 rounded-xl border transition-all duration-200
+                      ${isActive 
+                        ? 'bg-foreground text-background border-foreground' 
+                        : 'bg-window-bg border-border hover:border-foreground/30 text-muted-foreground hover:text-foreground'
+                      }
+                    `}
+                  >
+                    <t.icon className={`w-5 h-5 @md:w-6 @md:h-6 ${isActive ? 'stroke-[2.5]' : 'stroke-[1.5]'}`} />
+                    <span className="text-xs @md:text-sm font-medium">{t.label}</span>
+                    
+                    {isActive && (
+                      <div className="absolute top-2 right-2 @md:top-3 @md:right-3">
+                        <Check size={12} strokeWidth={3} className="@md:w-[14px] @md:h-[14px]" />
+                      </div>
+                    )}
+                  </button>
+                )
+              })}
+            </div>
+          </div>
 
-        <div className="p-4 rounded-lg bg-window-header-bg text-sm text-muted-foreground">
-          <p>Current theme: <span className="font-medium text-foreground capitalize">{theme}</span></p>
+          <div className="pt-6 border-t border-border/50">
+            <div className="flex items-center justify-between text-xs @md:text-sm">
+               <span className="text-muted-foreground">Version</span>
+               <span className="font-mono text-foreground/70">1.0.0</span>
+            </div>
+          </div>
         </div>
       </div>
     </div>
   )
 }
-

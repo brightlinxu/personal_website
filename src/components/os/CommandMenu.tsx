@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react"
 import { Command } from "cmdk"
 import { useOSStore } from "@/store/osStore"
-import { APPS } from "./Dock"
-import { PROJECTS } from "@/data/projects"
+import { APPS } from "@/data/apps"
+import { GITHUB_URL } from "@/lib/constants"
 import { Search, MoveRight } from "lucide-react"
 import { AnimatePresence, motion } from "framer-motion"
 
@@ -36,7 +36,6 @@ export const CommandMenu = () => {
     about: ["about", "me", "info", "bio"],
     projects: ["projects", "work", "portfolio", "code", "apps"],
     resume: ["resume", "cv", "experience", "job", "career"],
-    contact: ["contact", "email", "hello", "message"],
     settings: ["settings", "config", "theme", "appearance", "dark mode", "light mode"],
     github: ["github", "git", "repo", "source"],
   }
@@ -81,7 +80,7 @@ export const CommandMenu = () => {
                     keywords={appKeywords[app.id]}
                     onSelect={() => runCommand(() => {
                         if (app.id === 'github') {
-                            window.open("https://github.com/brightxu", "_blank")
+                            window.open(GITHUB_URL, "_blank")
                         } else if (app.id === 'resume') {
                             alert("Resume functionality to be implemented!")
                         } else {

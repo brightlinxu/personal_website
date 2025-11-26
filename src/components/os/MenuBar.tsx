@@ -3,7 +3,7 @@ import { format } from "date-fns"
 import { Battery, Wifi, Search, Command } from "lucide-react"
 import { useOSStore } from "@/store/osStore"
 
-import { APPS } from "./Dock"
+import { APPS } from "@/data/apps"
 
 export const MenuBar = () => {
   const [time, setTime] = useState(new Date())

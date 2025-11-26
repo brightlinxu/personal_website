@@ -1,26 +1,8 @@
 import { useRef, useState, useEffect } from "react"
-import { motion, useMotionValue, useSpring, useTransform } from "framer-motion"
-import { 
-  Folder, 
-  Terminal, 
-  Mail, 
-  Github, 
-  Music, 
-  Trash2, 
-  User,
-  Code,
-  Settings
-} from "lucide-react"
-
-// App definitions
-export const APPS = [
-  { id: "about", title: "About Me", icon: User, color: "bg-blue-500" },
-  { id: "projects", title: "Projects", icon: Code, color: "bg-indigo-500" },
-  // { id: "resume", title: "Resume", icon: Folder, color: "bg-yellow-500" },
-  { id: "contact", title: "Contact", icon: Mail, color: "bg-green-500" },
-  { id: "settings", title: "Settings", icon: Settings, color: "bg-gray-500" },
-  { id: "github", title: "GitHub", icon: Github, color: "bg-gray-800", link: "https://github.com" }, // We can handle links differently
-]
+import { AnimatePresence, motion, useMotionValue, useSpring, useTransform } from "framer-motion"
+import { useOSStore } from "@/store/osStore"
+import { APPS } from "@/data/apps"
+import { ArrowUpRight } from "lucide-react"
 
 interface DockProps {
   onAppClick: (id: string) => void
@@ -29,6 +11,7 @@ interface DockProps {
 export const Dock = ({ onAppClick }: DockProps) => {
   const mouseX = useMotionValue(Infinity)
   const [isTouchDevice, setIsTouchDevice] = useState(false)
+  const { windows } = useOSStore()
 
   useEffect(() => {
     const checkDevice = () => {
@@ -71,23 +54,16 @@ export const Dock = ({ onAppClick }: DockProps) => {
             key={app.id} 
             mouseX={mouseX} 
             app={app} 
+            isOpen={windows[app.id]?.isOpen}
             onClick={() => onAppClick(app.id)} 
           />
         ))}
-        {/* Divider */}
-        {/* <div className="w-[1px] h-8 bg-foreground/20 mx-1" />
-        
-        <DockIcon 
-            mouseX={mouseX} 
-            app={{ id: 'trash', title: 'Trash', icon: Trash2, color: 'bg-gray-600' }} 
-            onClick={() => {}} 
-        /> */}
       </div>
     </motion.div>
   )
 }
 
-function DockIcon({ mouseX, app, onClick }: { mouseX: any, app: any, onClick: () => void }) {
+function DockIcon({ mouseX, app, isOpen, onClick }: { mouseX: any, app: any, isOpen?: boolean, onClick: () => void }) {
   const ref = useRef<HTMLDivElement>(null)
 
   const distance = useTransform(mouseX, (val: number) => {
@@ -107,8 +83,13 @@ function DockIcon({ mouseX, app, onClick }: { mouseX: any, app: any, onClick: ()
       whileTap={{ scale: 0.9 }}
       id={`dock-app-${app.id}`}
     >
-      <div className={`w-full h-full rounded-xl ${app.color} flex items-center justify-center text-white`}>
+      <div className={`w-full h-full rounded-xl ${app.color} flex items-center justify-center text-white relative`}>
         <app.icon size="60%" />
+        {app.external && (
+          <div className="absolute top-1 right-1 bottom-[70%] left-[70%]">
+            <ArrowUpRight className="text-white/80 size-full" />
+          </div>
+        )}
       </div>
       
       {/* Tooltip */}
@@ -116,9 +97,19 @@ function DockIcon({ mouseX, app, onClick }: { mouseX: any, app: any, onClick: ()
         {app.title}
       </span>
       
-      {/* Active Indicator Dot (optional logic can be added later) */}
-      {/* <div className="absolute -bottom-2 w-1 h-1 bg-white/50 rounded-full" /> */}
+      {/* Active Indicator Dot */}
+      <AnimatePresence>
+        {isOpen && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.2, ease: "easeInOut" }}
+          >
+            <div className="absolute -bottom-[7px] size-[3.5px] bg-foreground/80 rounded-full" />
+          </motion.div>
+        )}
+      </AnimatePresence>
     </motion.div>
   )
 }
-

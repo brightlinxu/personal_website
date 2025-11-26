@@ -1,15 +1,16 @@
 import { useEffect, useRef, useState } from "react"
 import { MenuBar } from "./MenuBar"
-import { Dock, APPS } from "./Dock"
+import { Dock } from "./Dock"
+import { APPS } from "@/data/apps"
 import { Window } from "./Window"
 import { AboutApp } from "../apps/AboutApp"
 import { ProjectsApp } from "../apps/ProjectsApp"
-import { ContactApp } from "../apps/ContactApp"
 import { SettingsApp } from "../apps/SettingsApp"
 import { useOSStore } from "@/store/osStore"
 import { AnimatePresence, motion } from "framer-motion"
 import { LoadingScreen } from "./LoadingScreen"
 import { CommandMenu } from "./CommandMenu"
+import { GITHUB_URL } from "@/lib/constants"
 
 export const Desktop = () => {
   const { windows, openWindow, theme, resizeWindowsToFit } = useOSStore()
@@ -79,7 +80,7 @@ export const Desktop = () => {
 
   const handleAppClick = (id: string) => {
     if (id === "github") {
-      window.open("https://github.com/brightxu", "_blank")
+      window.open(GITHUB_URL, "_blank")
       return
     }
     if (id === "music") {
@@ -100,8 +101,6 @@ export const Desktop = () => {
         return <AboutApp />
       case "projects":
         return <ProjectsApp />
-      case "contact":
-        return <ContactApp />
       case "settings":
         return <SettingsApp />
       default:

@@ -82,7 +82,10 @@ export const Window = ({
     setHasMounted(true)
   }, [])
 
-  const handleMaximize = () => {
+  const handleMaximize = (e: React.MouseEvent) => {
+    e.stopPropagation()
+    e.preventDefault()
+  
     if (isMaximized) {
       // Restore
       if (preMaximizeState) {
@@ -370,7 +373,7 @@ export const Window = ({
           >
             <X size={8} className="opacity-0 group-hover/traffic:opacity-100 text-black" />
           </button>
-          <button 
+          {/* <button 
             onClick={(e) => { e.stopPropagation(); minimizeWindow(id); }}
             onMouseDown={(e) => { e.stopPropagation(); }}
             onPointerDown={(e) => { e.stopPropagation(); }}
@@ -380,9 +383,9 @@ export const Window = ({
             )}
           >
             <Minus size={8} className="opacity-0 group-hover/traffic:opacity-100 text-black" />
-          </button>
+          </button> */}
           <button 
-            onClick={(e) => { e.stopPropagation(); handleMaximize(); }}
+            onClick={(e) => { e.stopPropagation(); handleMaximize(e); }}
             onMouseDown={(e) => { e.stopPropagation(); }}
             onPointerDown={(e) => { e.stopPropagation(); }}
             className={cn(
@@ -403,7 +406,7 @@ export const Window = ({
 
       {/* Window Content */}
       <div 
-        className="flex-1 overflow-auto p-4 text-foreground relative cursor-default bg-window-bg" 
+        className="flex-1 overflow-auto text-foreground relative cursor-default bg-window-bg" 
         onPointerDown={(e) => {
           // We do NOT stop propagation here, so the container's onPointerDown fires (calling focusWindow)
           // We also don't need to worry about dragging because dragListener={false} on container
