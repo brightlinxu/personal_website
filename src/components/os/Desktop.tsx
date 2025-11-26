@@ -11,7 +11,7 @@ import { useOSStore } from "@/store/osStore"
 import { AnimatePresence, motion } from "framer-motion"
 import { LoadingScreen } from "./LoadingScreen"
 import { CommandMenu } from "./CommandMenu"
-import { GITHUB_URL } from "@/lib/constants"
+import { GITHUB_URL, DOCK_HEIGHT, MENU_BAR_HEIGHT } from "@/lib/constants"
 
 export const Desktop = () => {
   const { windows, openWindow, theme, resizeWindowsToFit } = useOSStore()
@@ -26,10 +26,9 @@ export const Desktop = () => {
     const handleResize = () => {
       const width = window.innerWidth
       const height = window.innerHeight
-      // Subtract Dock height + Menu bar + padding if needed, or just use full viewport
-      // For now, we just ensure the window isn't larger than the viewport
-      // Subtracting some padding (e.g. 32px for top bar)
-      resizeWindowsToFit(width, height - 32)
+      // Subtract Dock height + Menu bar
+      // We want to ensure the window isn't larger than the effective viewport
+      resizeWindowsToFit(width, height - MENU_BAR_HEIGHT - DOCK_HEIGHT)
     }
 
     window.addEventListener('resize', handleResize)

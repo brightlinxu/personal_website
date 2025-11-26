@@ -3,6 +3,7 @@ import { motion, AnimatePresence, useDragControls } from "framer-motion"
 import { X, Minus, Maximize2 } from "lucide-react"
 import { cn } from "@/lib/utils"
 import { useOSStore } from "@/store/osStore"
+import { DOCK_HEIGHT, MENU_BAR_HEIGHT } from "@/lib/constants"
 
 interface WindowProps {
   id: string
@@ -58,10 +59,6 @@ export const Window = ({
     return () => window.removeEventListener('resize', handleResize)
   }, [])
 
-  // Constants for maximized check
-  const DOCK_HEIGHT = 62
-  const MENU_BAR_HEIGHT = 32
-
   // Dynamic check if window is maximized
   const isMaximized = useMemo(() => {
     // Only check if window size is numeric (not string like "100%")
@@ -106,8 +103,8 @@ export const Window = ({
       })
       
       // Set to full screen (minus menu bar and dock)
-      updateWindowPosition(id, { x: 0, y: 32 })
-      updateWindowSize(id, { width: window.innerWidth, height: window.innerHeight - 32 - DOCK_HEIGHT })
+      updateWindowPosition(id, { x: 0, y: MENU_BAR_HEIGHT })
+      updateWindowSize(id, { width: window.innerWidth, height: window.innerHeight - MENU_BAR_HEIGHT - DOCK_HEIGHT })
     }
   }
 
@@ -253,10 +250,10 @@ export const Window = ({
       : parseInt(windowState.size.height as string) || 400
 
     return {
-      top: 32, // Menu bar height
+      top: MENU_BAR_HEIGHT, // Menu bar height
       left: 0,
       right: window.innerWidth - width,
-      bottom: window.innerHeight - height
+      bottom: window.innerHeight - height - DOCK_HEIGHT + 20 // Allow some overlap but not total occlusion
     }
   }
 
@@ -356,8 +353,14 @@ export const Window = ({
       <div 
         className="h-8 bg-window-header-bg border-b border-window-border flex items-center px-3 justify-between cursor-grab active:cursor-grabbing"
         onPointerDown={(e) => {
-           // Only drag if not maximized
-           if (!isMaximized) dragControls.start(e)
+          e.stopPropagation()
+          e.preventDefault()
+          // Only drag if not maximized
+          if (!isMaximized) dragControls.start(e)
+        }}
+        onMouseDown={(e) => {
+          e.stopPropagation()
+          e.preventDefault()
         }}
         onDoubleClick={handleMaximize}
       >

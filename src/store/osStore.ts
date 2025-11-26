@@ -1,6 +1,7 @@
 import { create } from 'zustand'
 import { persist } from 'zustand/middleware'
 import { APPS } from '@/data/apps'
+import { DOCK_HEIGHT, MENU_BAR_HEIGHT } from '@/lib/constants'
 
 interface WindowState {
   id: string
@@ -75,8 +76,6 @@ export const useOSStore = create<OSState>()(
         if (typeof window !== 'undefined') {
           const screenW = window.innerWidth
           const screenH = window.innerHeight
-          const DOCK_HEIGHT = 62 + 16 // Approximate dock height + padding
-          const MENU_BAR_HEIGHT = 32
           
           // Constrain dimensions to viewport
           if (width > screenW) width = screenW
@@ -314,4 +313,3 @@ export const useOSStore = create<OSState>()(
     }
   )
 )
-
