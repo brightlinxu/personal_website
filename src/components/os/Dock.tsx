@@ -77,7 +77,7 @@ function DockIcon({ mouseX, app, onClick }: { mouseX: any, app: any, onClick: ()
     <motion.div
       ref={ref}
       style={{ width }}
-      className="aspect-square rounded-xl shadow-lg relative group flex flex-col items-center justify-end cursor-pointer"
+      className="aspect-square rounded-xl shadow-lg relative group flex flex-col items-center justify-end"
       onClick={onClick}
       whileTap={{ scale: 0.9 }}
       id={`dock-app-${app.id}`}
