@@ -64,21 +64,59 @@ export const useOSStore = create<OSState>()(
         }
 
         // New window
-        // Add some randomness to initial position so they don't stack perfectly
-        const randomOffset = Object.keys(state.windows).length * 20
-        
         // Get default dimensions from APPS config or fallback
         const appConfig = APPS.find(a => a.id === id)
-        const defaultWidth = appConfig?.width || 600
-        const defaultHeight = appConfig?.height || 400
+        let width = appConfig?.width || 600
+        let height = appConfig?.height || 400
+        
+        let x = 100
+        let y = 100
+        
+        if (typeof window !== 'undefined') {
+          const screenW = window.innerWidth
+          const screenH = window.innerHeight
+          const DOCK_HEIGHT = 62 + 16 // Approximate dock height + padding
+          const MENU_BAR_HEIGHT = 32
+          
+          // Constrain dimensions to viewport
+          if (width > screenW) width = screenW
+          if (height > screenH - MENU_BAR_HEIGHT - DOCK_HEIGHT) {
+            height = screenH - MENU_BAR_HEIGHT - DOCK_HEIGHT
+          }
+          
+          // Add cascading offset
+          // Reset offset every 10 windows to prevent running off screen
+          const offset = (Object.keys(state.windows).length % 10) * 30
+          
+          // Center-ish start + offset
+          // Using a calculated start position rather than hardcoded 100
+          const startX = Math.max(0, (screenW - width) / 2)
+          const startY = Math.max(MENU_BAR_HEIGHT, (screenH - height) / 2 - 50) // Slightly above center
+          
+          x = startX + offset
+          y = startY + offset
+          
+          // Final Clamp to ensure it stays on screen
+          if (x + width > screenW) {
+            x = Math.max(0, screenW - width - 20)
+          }
+          if (y + height > screenH - DOCK_HEIGHT) {
+             y = Math.max(MENU_BAR_HEIGHT, screenH - DOCK_HEIGHT - height - 20)
+          }
+        } else {
+          // Fallback for SSR or no window
+          const randomOffset = Object.keys(state.windows).length * 20
+          x = 100 + randomOffset
+          y = 100 + randomOffset
+        }
         
         set({
           windows: {
             ...state.windows,
             [id]: {
               id,
-              position: { x: 100 + randomOffset, y: 100 + randomOffset },
-              size: { width: defaultWidth, height: defaultHeight },
+              position: { x, y },
+              size: { width, height },
               isOpen: true,
               isMinimized: false,
               zIndex: state.maxZIndex + 1
