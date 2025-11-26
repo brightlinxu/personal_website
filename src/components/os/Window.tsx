@@ -111,6 +111,7 @@ export const Window = ({
   const handleResize = (e: React.PointerEvent, direction: string) => {
     e.preventDefault()
     e.stopPropagation()
+    focusWindow(id) // Focus window on resize start
     
     // If we are resizing a maximized window, it will naturally stop being maximized
     // because the dimensions will change. We might want to clear preMaximizeState here?
