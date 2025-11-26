@@ -37,12 +37,46 @@ export const Window = ({
   const containerRef = useRef<HTMLDivElement>(null)
   const dragControls = useDragControls()
   const [isResizing, setIsResizing] = useState(false)
-  const [isMaximized, setIsMaximized] = useState(false)
   const [hasMounted, setHasMounted] = useState(false)
   const [preMaximizeState, setPreMaximizeState] = useState<{
     position: { x: number, y: number },
     size: { width: number | string, height: number | string }
   } | null>(null)
+
+  // Track browser window size to ensure maximization check updates on resize
+  const [browserSize, setBrowserSize] = useState({ width: typeof window !== 'undefined' ? window.innerWidth : 0, height: typeof window !== 'undefined' ? window.innerHeight : 0 })
+
+  useEffect(() => {
+    const handleResize = () => {
+      setBrowserSize({
+        width: window.innerWidth,
+        height: window.innerHeight
+      })
+    }
+
+    window.addEventListener('resize', handleResize)
+    return () => window.removeEventListener('resize', handleResize)
+  }, [])
+
+  // Constants for maximized check
+  const DOCK_HEIGHT = 70
+  const MENU_BAR_HEIGHT = 32
+
+  // Dynamic check if window is maximized
+  const isMaximized = useMemo(() => {
+    // Only check if window size is numeric (not string like "100%")
+    const width = typeof windowState.size.width === 'number' ? windowState.size.width : parseInt(windowState.size.width as string)
+    const height = typeof windowState.size.height === 'number' ? windowState.size.height : parseInt(windowState.size.height as string)
+    const x = windowState.position.x
+    const y = windowState.position.y
+
+    // Allow for small rounding errors (pixel differences)
+    const widthMatch = Math.abs(width - browserSize.width) < 2
+    const heightMatch = Math.abs(height - (browserSize.height - MENU_BAR_HEIGHT - DOCK_HEIGHT)) < 2
+    const posMatch = Math.abs(x - 0) < 2 && Math.abs(y - MENU_BAR_HEIGHT) < 2
+
+    return widthMatch && heightMatch && posMatch
+  }, [windowState.size, windowState.position, browserSize])
 
   useEffect(() => {
     setHasMounted(true)
@@ -54,22 +88,23 @@ export const Window = ({
       if (preMaximizeState) {
         updateWindowPosition(id, preMaximizeState.position)
         updateWindowSize(id, preMaximizeState.size)
+        setPreMaximizeState(null) // Clear state after restore
+      } else {
+        // Fallback if no pre-state: Center with default size
+        updateWindowPosition(id, { x: 100, y: 100 })
+        updateWindowSize(id, { width: 800, height: 600 })
       }
-      setIsMaximized(false)
     } else {
       // Maximize
-      // Store current state
+      // Store current state BEFORE maximizing
       setPreMaximizeState({
         position: windowState.position,
         size: windowState.size
       })
       
       // Set to full screen (minus menu bar and dock)
-      // Dock height (h-16 = 64px) + bottom margin (bottom-1 = 4px) + padding (12px) ≈ 80px
-      const DOCK_HEIGHT = 70
       updateWindowPosition(id, { x: 0, y: 32 })
       updateWindowSize(id, { width: window.innerWidth, height: window.innerHeight - 32 - DOCK_HEIGHT })
-      setIsMaximized(true)
     }
   }
 
@@ -77,9 +112,19 @@ export const Window = ({
     e.preventDefault()
     e.stopPropagation()
     
+    // If we are resizing a maximized window, it will naturally stop being maximized
+    // because the dimensions will change. We might want to clear preMaximizeState here?
+    // Actually, the requirement is:
+    // "ONCE i resize it, it is no longer 'fullscreen' and if i double click the topbar of the window, it should become 'fullscreen' again"
+    // This implies if we resize away from fullscreen, we treat it as a normal window.
+    // If we want to keep the "preMaximizeState" so that the NEXT maximize works?
+    // Wait, if we resize, it's no longer fullscreen. So double click should Maximize again.
+    // And when it maximizes again, it should store the CURRENT (just resized) state as the new preMaximizeState.
+    // So yes, we should probably clear preMaximizeState on manual resize if we want to be clean,
+    // OR we just let the handleMaximize logic overwrite it when we maximize again.
+    // Let's clear it to be safe and avoid "restoring" to a state from 5 steps ago if logic gets complex.
     if (isMaximized) {
-      setIsMaximized(false)
-      setPreMaximizeState(null)
+       setPreMaximizeState(null)
     }
     
     setIsResizing(true)

@@ -20,7 +20,6 @@ export const APPS = [
   { id: "contact", title: "Contact", icon: Mail, color: "bg-green-500" },
   { id: "settings", title: "Settings", icon: Settings, color: "bg-gray-500" },
   { id: "github", title: "GitHub", icon: Github, color: "bg-gray-800", link: "https://github.com" }, // We can handle links differently
-  { id: "music", title: "Retify", icon: Music, color: "bg-rose-500" },
 ]
 
 interface DockProps {
@@ -38,7 +37,7 @@ export const Dock = ({ onAppClick }: DockProps) => {
       className="fixed bottom-1 left-1/2 -translate-x-1/2 z-[9999]"
     >
       <div 
-        className="flex gap-4 items-end h-16 px-4 pb-3 rounded-2xl bg-dock-bg backdrop-blur-xl border border-dock-border"
+        className="flex gap-3 items-end h-14 px-3 pb-2 rounded-3xl bg-dock-bg backdrop-blur-xl border border-dock-border"
         onMouseMove={(e) => mouseX.set(e.pageX)}
         onMouseLeave={() => mouseX.set(Infinity)}
       >
@@ -51,7 +50,7 @@ export const Dock = ({ onAppClick }: DockProps) => {
           />
         ))}
         {/* Divider */}
-        <div className="w-[1px] h-10 bg-white/20 mx-1" />
+        <div className="w-[1px] h-8 bg-foreground/20 mx-1" />
         
         <DockIcon 
             mouseX={mouseX} 

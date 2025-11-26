@@ -9,8 +9,8 @@
   --window-bg: rgba(255, 255, 255, 1);
   --window-border: #e5e7eb;
   --window-header-bg: #f3f4f6;
-  --dock-bg: rgba(255, 255, 255, 0.2);
-  --dock-border: rgba(255, 255, 255, 0.2);
+  --dock-bg: rgba(216, 216, 216, 0.2);
+  --dock-border: rgba(172, 172, 172, 0.2);
   --menu-bar-bg: rgba(255, 255, 255, 0.3);
   --menu-text: #171717;
   --traffic-light-inactive: #d1d5db;
