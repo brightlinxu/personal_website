@@ -1,13 +1,22 @@
 import { useState, useEffect } from "react"
 import { format } from "date-fns"
 import { Battery, Wifi, Search, Command } from "lucide-react"
+import { useOSStore } from "@/store/osStore"
 
 export const MenuBar = () => {
   const [time, setTime] = useState(new Date())
+  const [shortcut, setShortcut] = useState("⌘K")
+  const { toggleCommandMenu } = useOSStore()
 
   useEffect(() => {
     const timer = setInterval(() => setTime(new Date()), 1000)
     return () => clearInterval(timer)
+  }, [])
+
+  useEffect(() => {
+    // Check if user is on Mac
+    const isMac = navigator.platform.toUpperCase().indexOf('MAC') >= 0
+    setShortcut(isMac ? "⌘K" : "Ctrl K")
   }, [])
 
   return (
@@ -38,8 +47,12 @@ export const MenuBar = () => {
         <div className="hover:bg-foreground/10 px-2 py-0.5 rounded transition-colors cursor-default">
           <Wifi size={16} />
         </div> */}
-        <div className="hover:bg-foreground/10 px-2 py-0.5 rounded transition-colors cursor-default">
+        <div 
+          className="hover:bg-foreground/10 px-2 py-0.5 rounded transition-colors cursor-pointer flex items-center gap-1"
+          onClick={toggleCommandMenu}
+        >
           <Search size={16} />
+          <span className="text-xs opacity-50 hidden sm:block">{shortcut}</span>
         </div>
         {/* <div className="hover:bg-foreground/10 px-2 py-0.5 rounded transition-colors cursor-default flex items-center gap-1">
             <Command size={14} />

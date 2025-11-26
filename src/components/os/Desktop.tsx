@@ -9,6 +9,7 @@ import { SettingsApp } from "../apps/SettingsApp"
 import { useOSStore } from "@/store/osStore"
 import { AnimatePresence, motion } from "framer-motion"
 import { LoadingScreen } from "./LoadingScreen"
+import { CommandMenu } from "./CommandMenu"
 
 export const Desktop = () => {
   const { windows, openWindow, theme, resizeWindowsToFit } = useOSStore()
@@ -165,6 +166,7 @@ export const Desktop = () => {
 
         <Dock onAppClick={handleAppClick} />
       </motion.div>
+      <CommandMenu />
     </>
   )
 }

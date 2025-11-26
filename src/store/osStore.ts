@@ -15,6 +15,7 @@ interface OSState {
   activeWindowId: string | null
   maxZIndex: number
   theme: 'system' | 'light' | 'dark'
+  isCommandMenuOpen: boolean
   
   // Actions
   openWindow: (id: string) => void
@@ -24,6 +25,8 @@ interface OSState {
   updateWindowPosition: (id: string, position: { x: number; y: number }) => void
   updateWindowSize: (id: string, size: { width: number | string; height: number | string }) => void
   setTheme: (theme: 'system' | 'light' | 'dark') => void
+  setCommandMenuOpen: (isOpen: boolean) => void
+  toggleCommandMenu: () => void
   resizeWindowsToFit: (maxWidth: number, maxHeight: number) => void
 }
 
@@ -34,6 +37,7 @@ export const useOSStore = create<OSState>()(
       activeWindowId: null,
       maxZIndex: 10,
       theme: 'system',
+      isCommandMenuOpen: false,
 
       openWindow: (id) => {
         const state = get()
@@ -152,6 +156,8 @@ export const useOSStore = create<OSState>()(
       },
 
       setTheme: (theme) => set({ theme }),
+      setCommandMenuOpen: (isOpen) => set({ isCommandMenuOpen: isOpen }),
+      toggleCommandMenu: () => set((state) => ({ isCommandMenuOpen: !state.isCommandMenuOpen })),
 
       // Action to check and resize all windows if they exceed the viewport
       resizeWindowsToFit: (maxWidth, maxHeight) => {
