@@ -18,10 +18,9 @@ export const AboutApp = () => {
       <div className="space-y-4">
         <h2 className="text-xl font-semibold border-b border-border pb-2">Quick Facts</h2>
         <ul className="list-disc list-inside space-y-2 text-muted-foreground">
-          <li>Frontend Enthusiast & Full Stack Developer</li>
-          <li>Based in New York City 🍎</li>
-          <li>Love building things from 0 → 1</li>
-          <li>Big fan of cats 🐱 and hotpot 🍲</li>
+          <li>Frontend enthusiast & full stack developer</li>
+          <li>Based in New York City</li>
+          <li>Big fan of cats and hotpot</li>
         </ul>
       </div>
 

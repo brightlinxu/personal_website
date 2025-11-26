@@ -59,7 +59,7 @@ export const Window = ({
   }, [])
 
   // Constants for maximized check
-  const DOCK_HEIGHT = 70
+  const DOCK_HEIGHT = 62
   const MENU_BAR_HEIGHT = 32
 
   // Dynamic check if window is maximized
