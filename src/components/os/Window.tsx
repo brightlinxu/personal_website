@@ -326,7 +326,7 @@ export const Window = ({
       dragConstraints={getConstraints()}
       dragElastic={0} // Ensure no rubber banding outside constraints
       className={cn(
-        "fixed top-0 left-0 flex flex-col bg-window-bg transition-shadow duration-200 rounded-lg border border-window-border overflow-hidden",
+        "fixed top-0 left-0 flex flex-col bg-window-bg transition-shadow duration-200 rounded-lg border border-window-border",
         isActive ? "shadow-window-active ring-1 ring-black/5 dark:ring-white/10" : "shadow-window-inactive",
         isResizing ? "pointer-events-auto transition-none" : "transition-all duration-200 ease-in-out" // Disable transition during resize
       )}
@@ -340,18 +340,18 @@ export const Window = ({
       }}
     >
       {/* Resize Handles */}
-      <div className="absolute top-0 left-0 w-4 h-4 cursor-nwse-resize z-50" onPointerDown={(e) => handleResize(e, 'nw')} />
-      <div className="absolute top-0 right-0 w-4 h-4 cursor-nesw-resize z-50" onPointerDown={(e) => handleResize(e, 'ne')} />
-      <div className="absolute bottom-0 left-0 w-4 h-4 cursor-nesw-resize z-50" onPointerDown={(e) => handleResize(e, 'sw')} />
-      <div className="absolute bottom-0 right-0 w-4 h-4 cursor-nwse-resize z-50" onPointerDown={(e) => handleResize(e, 'se')} />
-      <div className="absolute top-0 left-4 right-4 h-2 cursor-ns-resize z-50" onPointerDown={(e) => handleResize(e, 'n')} />
-      <div className="absolute bottom-0 left-4 right-4 h-2 cursor-ns-resize z-50" onPointerDown={(e) => handleResize(e, 's')} />
-      <div className="absolute left-0 top-4 bottom-4 w-2 cursor-ew-resize z-50" onPointerDown={(e) => handleResize(e, 'w')} />
-      <div className="absolute right-0 top-4 bottom-4 w-2 cursor-ew-resize z-50" onPointerDown={(e) => handleResize(e, 'e')} />
+      <div className="absolute -top-0.5 -left-0.5 w-2.5 h-2.5 cursor-nwse-resize z-[9999]" onPointerDown={(e) => handleResize(e, 'nw')} />
+      <div className="absolute -top-0.5 -right-0.5 w-2.5 h-2.5 cursor-nesw-resize z-[9999]" onPointerDown={(e) => handleResize(e, 'ne')} />
+      <div className="absolute -bottom-0.5 -left-0.5 w-2.5 h-2.5 cursor-nesw-resize z-[9999]" onPointerDown={(e) => handleResize(e, 'sw')} />
+      <div className="absolute -bottom-0.5 -right-0.5 w-2.5 h-2.5 cursor-nwse-resize z-[9999]" onPointerDown={(e) => handleResize(e, 'se')} />
+      <div className="absolute -top-1 left-2 right-2 h-2 cursor-ns-resize z-[9999]" onPointerDown={(e) => handleResize(e, 'n')} />
+      <div className="absolute -bottom-1 left-2 right-2 h-2 cursor-ns-resize z-[9999]" onPointerDown={(e) => handleResize(e, 's')} />
+      <div className="absolute -left-1 top-2 bottom-2 w-2 cursor-ew-resize z-[9999]" onPointerDown={(e) => handleResize(e, 'w')} />
+      <div className="absolute -right-1 top-2 bottom-2 w-2 cursor-ew-resize z-[9999]" onPointerDown={(e) => handleResize(e, 'e')} />
 
       {/* Window Header / Titlebar */}
       <div 
-        className="h-8 bg-window-header-bg border-b border-window-border flex items-center px-3 justify-between cursor-grab active:cursor-grabbing"
+        className="h-8 bg-window-header-bg border-b border-window-border flex items-center px-3 justify-between cursor-grab active:cursor-grabbing rounded-t-lg"
         onPointerDown={(e) => {
           e.stopPropagation()
           e.preventDefault()
@@ -409,7 +409,7 @@ export const Window = ({
 
       {/* Window Content */}
       <div 
-        className="flex-1 overflow-auto text-foreground relative cursor-default bg-window-bg" 
+        className="flex-1 overflow-auto text-foreground relative cursor-default bg-window-bg rounded-b-lg" 
         onPointerDown={(e) => {
           // We do NOT stop propagation here, so the container's onPointerDown fires (calling focusWindow)
           // We also don't need to worry about dragging because dragListener={false} on container
