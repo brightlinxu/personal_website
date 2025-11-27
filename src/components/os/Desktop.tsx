@@ -17,15 +17,22 @@ export const Desktop = () => {
   const { windows, openWindow, theme, resizeWindowsToFit } = useOSStore()
   const [effectiveTheme, setEffectiveTheme] = useState<'light' | 'dark' | ''>('')
   const [isLoading, setIsLoading] = useState(true)
+  const [isMobile, setIsMobile] = useState(false)
+  const prevIsMobileRef = useRef(isMobile)
   
   // Create a ref for the desktop area to use as drag constraints
   const desktopRef = useRef<HTMLDivElement>(null)
+
+  useEffect(() => {
+    prevIsMobileRef.current = isMobile
+  }, [isMobile])
 
   // Resize Listener
   useEffect(() => {
     const handleResize = () => {
       const width = window.innerWidth
       const height = window.innerHeight
+      setIsMobile(width < 768)
       // Subtract Dock height + Menu bar
       // We want to ensure the window isn't larger than the effective viewport
       resizeWindowsToFit(width, height - MENU_BAR_HEIGHT - DOCK_HEIGHT)
@@ -61,6 +68,20 @@ export const Desktop = () => {
     mediaQuery.addEventListener('change', handler)
     return () => mediaQuery.removeEventListener('change', handler)
   }, [theme])
+
+  // Preload background images
+  useEffect(() => {
+    const images = [
+      "/images/desktop-bg-day.jpeg",
+      "/images/desktop-bg-night.jpeg",
+      "/images/desktop-bg-day-mobile.jpeg",
+      "/images/desktop-bg-night-mobile.jpeg"
+    ]
+    images.forEach(src => {
+      const img = new Image()
+      img.src = src
+    })
+  }, [])
 
   // Initialize Oneko (The Cat)
   // useEffect(() => {
@@ -137,11 +158,11 @@ export const Desktop = () => {
         className="h-screen w-screen overflow-hidden relative selection:bg-blue-500/30"
         style={{
           backgroundImage: effectiveTheme === 'dark' 
-            ? "url(/images/desktop-bg-night.jpeg)"
-            : "url(/images/desktop-bg-day.jpeg)",
+            ? (isMobile ? "url(/images/desktop-bg-night-mobile.jpeg)" : "url(/images/desktop-bg-night.jpeg)")
+            : (isMobile ? "url(/images/desktop-bg-day-mobile.jpeg)" : "url(/images/desktop-bg-day.jpeg)"),
           backgroundSize: "cover",
           backgroundPosition: "center",
-          transition: "background-image 0.5s ease-in-out"
+          transition: isMobile !== prevIsMobileRef.current ? "none" : "background-image 0.5s ease-in-out"
         }}
       >
         {/* Overlay */}
