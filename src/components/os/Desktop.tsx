@@ -137,8 +137,8 @@ export const Desktop = () => {
         className="h-screen w-screen overflow-hidden relative selection:bg-blue-500/30"
         style={{
           backgroundImage: effectiveTheme === 'dark' 
-            ? "url(https://images.unsplash.com/photo-1519681393784-d120267933ba?q=80&w=2070&auto=format&fit=crop)"
-            : "url(https://images.unsplash.com/photo-1493246507139-91e8fad9978e?q=80&w=2070&auto=format&fit=crop)",
+            ? "url(/images/desktop-bg-night.jpeg)"
+            : "url(/images/desktop-bg-day.jpeg)",
           backgroundSize: "cover",
           backgroundPosition: "center",
           transition: "background-image 0.5s ease-in-out"

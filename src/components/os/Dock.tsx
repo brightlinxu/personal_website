@@ -83,8 +83,12 @@ function DockIcon({ mouseX, app, isOpen, onClick }: { mouseX: any, app: any, isO
       whileTap={{ scale: 0.9 }}
       id={`dock-app-${app.id}`}
     >
-      <div className={`w-full h-full rounded-xl ${app.color} flex items-center justify-center text-white relative`}>
-        <app.icon size="60%" />
+      <div className={`w-full h-full rounded-xl ${app.color} flex items-center justify-center text-white relative overflow-hidden`}>
+        {app.iconImg ? (
+          <img src={app.iconImg} alt={app.title} className="w-full h-full object-cover" />
+        ) : (
+          <app.icon size="60%" />
+        )}
         {app.external && (
           <div className="absolute top-1 right-1 bottom-[70%] left-[70%]">
             <ArrowUpRight className="text-white/80 size-full" />

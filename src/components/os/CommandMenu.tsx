@@ -90,8 +90,12 @@ export const CommandMenu = () => {
                     })}
                     className="flex items-center gap-3 px-3 py-3 rounded-lg cursor-pointer text-sm text-gray-700 dark:text-gray-200 aria-selected:bg-blue-500/10 aria-selected:text-blue-600 dark:aria-selected:bg-blue-500/20 dark:aria-selected:text-blue-400 transition-colors group"
                   >
-                    <div className={`p-2 rounded-md ${app.color} text-white relative`}>
-                        <app.icon size={16} />
+                    <div className={`rounded-md ${app.color} text-white relative overflow-hidden flex items-center justify-center ${app.iconImg ? 'w-8 h-8' : 'p-2'}`}>
+                        {app.iconImg ? (
+                          <img src={app.iconImg} alt={app.title} className="w-full h-full object-cover" />
+                        ) : (
+                          <app.icon size={16} />
+                        )}
                         {app.external && (
                         <div className="absolute top-0.5 right-0.5 bottom-[70%] left-[70%]">
                           <ArrowUpRight className="text-white/80 size-full" />
